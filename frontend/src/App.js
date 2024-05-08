@@ -31,12 +31,8 @@ function App() {
       <div className="newGame" >
         <button onClick={newGame}>New Game</button>
       </div>
-      <div className="game-board">
-        <Board squares={squares} handleClick={handleClick}/>
-      </div>
-      <div className="game-info">
-        <Status squares = {squares} toMove = {toMove} move={move}/>
-      </div>
+      <Board squares={squares} handleClick={handleClick}/>
+      <Status squares = {squares} toMove = {toMove} move={move}/>
     </div>
   );
 }
@@ -44,7 +40,6 @@ function App() {
 export default App;
 
 function Status({squares, toMove, move}) {
-
   var status = ""
   const winner = calculateWinner(squares);
   if (winner == null) {
@@ -55,40 +50,36 @@ function Status({squares, toMove, move}) {
     }
   } else {
     status = "Game over.  " + winner + " wins.";
-  } 
-
+  }
   return (
-    <p>
-      {status}
-    </p>
+    <div className="game-info">
+      <p>
+        {status}
+      </p>
+    </div>
   );
 }
 
 function Board({squares, handleClick}) {
   return (
-    <>
-    <BoardRow squares={squares} handleClick={handleClick} start={0}/>
-    <BoardRow squares={squares} handleClick={handleClick} start={3}/>
-    <BoardRow squares={squares} handleClick={handleClick} start={6}/>
-    </>
+    <div className="game-board">
+      <BoardRow squares={squares} handleClick={handleClick} start={0}/>
+      <BoardRow squares={squares} handleClick={handleClick} start={3}/>
+      <BoardRow squares={squares} handleClick={handleClick} start={6}/>
+    </div>
   );
 }
 
 function BoardRow({squares, handleClick, start}) {
+  const ids = [start, start+1, start+2]
   return (
     <div className="board-row">
-    <Square
-      value={squares[start]}
-      onSquareClick={() => handleClick(start)}
-    />
-    <Square
-      value={squares[start+1]}
-      onSquareClick={() => handleClick(start+1)}
-    />
-    <Square
-      value={squares[start+2]}
-      onSquareClick={() => handleClick(start+2)}
-    />
+      {
+        ids.map((id) => (
+          <Square value={squares[id]} onSquareClick={() => handleClick(id)}
+        />
+        ))
+      }
   </div>   
   );
 }
